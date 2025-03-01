@@ -14,6 +14,11 @@ serviceAccount:
 podSecurityContext: {}
 securityContext: {}
 
+# Add default service configuration for test-connection.yaml
+service:
+  type: ClusterIP
+  port: 8265  # Using the head node's port as default
+
 head:
   enabled: true
   replicas: 1
