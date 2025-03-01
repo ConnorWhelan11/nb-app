@@ -42,6 +42,13 @@ resources:
     cpu: 500m
     memory: 512Mi
 
+# Add autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
 persistence:
   enabled: true
   storageClass: ""
