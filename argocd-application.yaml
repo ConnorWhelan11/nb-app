@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mlflow
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ConnorWhelan11/nb-app.git
+    path: charts/mlflow
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mlflow
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ray
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ConnorWhelan11/nb-app.git
+    path: charts/ray
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ray
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true 

@@ -1,0 +1,67 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/mlflow/mlflow
+  pullPolicy: IfNotPresent
+  tag: "v2.10.2"
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 5000
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - host: mlflow.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+persistence:
+  enabled: true
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 10Gi
+
+postgresql:
+  enabled: true
+  postgresqlDatabase: mlflow
+  postgresqlUser: mlflow
+  postgresqlPassword: mlflow123
+  persistence:
+    enabled: true
+    size: 10Gi
+
+s3:
+  enabled: true
+  bucket: mlflow
+  region: us-east-1
+  accessKeyId: ""
+  secretAccessKey: ""
+
+extraEnvVars: [] 
