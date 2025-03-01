@@ -6,6 +6,9 @@ image:
   tag: "2.9.3"
   pullPolicy: IfNotPresent
 
+command: ["ray", "start", "--head", "--port=6379", "--dashboard-host=0.0.0.0"]
+args: ["--block"]
+
 serviceAccount:
   create: true
   annotations: {}

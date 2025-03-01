@@ -5,6 +5,13 @@ image:
   pullPolicy: IfNotPresent
   tag: "v2.10.2"
 
+command: ["mlflow", "server"]
+args:
+  - "--host=0.0.0.0"
+  - "--port=5000"
+  - "--backend-store-uri=postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgresql:5432/$(POSTGRES_DB)"
+  - "--default-artifact-root=s3://$(S3_BUCKET)/"
+
 nameOverride: ""
 fullnameOverride: ""
 
@@ -71,4 +78,24 @@ s3:
   accessKeyId: ""
   secretAccessKey: ""
 
-extraEnvVars: [] 
+extraEnvVars:
+  - name: POSTGRES_USER
+    value: mlflow
+  - name: POSTGRES_PASSWORD
+    value: mlflow123
+  - name: POSTGRES_DB
+    value: mlflow
+  - name: S3_BUCKET
+    value: mlflow
+  - name: AWS_ACCESS_KEY_ID
+    valueFrom:
+      secretKeyRef:
+        name: mlflow-s3-credentials
+        key: access-key-id
+  - name: AWS_SECRET_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: mlflow-s3-credentials
+        key: secret-access-key
+  - name: AWS_REGION
+    value: us-east-1 
